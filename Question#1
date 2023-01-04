@@ -1,0 +1,52 @@
+#include <iostream>
+#include <pthread.h>
+#include <string>
+#include <algorithm> 
+#include <cctype>
+
+using namespace std;
+
+
+string input_string;
+string reverse_string;
+string capital_string;
+string shift_string;
+
+
+void* input_thread_func(void* args);
+void* reverse_thread_func(void* args);
+void* capital_thread_func(void* args);
+void* shift_thread_func(void* args);
+
+int main() {
+	
+	pthread_t input_thread;
+	pthread_t reverse_thread;
+	pthread_t capital_thread;
+	pthread_t shift_thread;
+
+	
+	pthread_create(&input_thread, NULL, input_thread_func, (void*)NULL);
+
+	
+	pthread_join(input_thread, NULL);
+
+	
+	pthread_create(&reverse_thread, NULL, reverse_thread_func, (void*)NULL);
+	pthread_create(&capital_thread, NULL, capital_thread_func, (void*)NULL);
+	pthread_create(&shift_thread, NULL, shift_thread_func, (void*)NULL);
+
+	
+	pthread_join(reverse_thread, NULL);
+	pthread_join(capital_thread, NULL);
+	pthread_join(shift_thread, NULL);
+
+	
+	cout << "Original string: " << input_string << endl;
+	cout << "Reversed string: " << reverse_string << endl;
+	cout << "Capitalized string: " << capital_string << endl;
+	cout << "Shifted string: " << shift_string << endl;
+
+	return 0;
+
+}
